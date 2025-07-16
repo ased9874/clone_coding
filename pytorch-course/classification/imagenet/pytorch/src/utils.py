@@ -6,18 +6,19 @@ import torch
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split  #사이킷런에서 
-
-def rename_dir(txt_path: os.PathLike, data_dir: os.PathLike):
-    classes_map = pd.read_table(txt_path, header = None, sep = ' ')
+# 폴더 이름을 알기 쉽게 변경하는 함수
+def rename_dir(txt_path: os.PathLike, data_dir: os.PathLike):  
+    classes_map = pd.read_table(txt_path, header = None, sep = ' ')   # header: 열이름은 기본값 None ,sep = ' ' : 공백으로 분리 
     classes_map.columns = ['folder','number','classes']
     class_dict = {}
     for i in range(len(classes_map)):#len(classes_map): 데이터프레임의 행의 수 
         class_dict[classes_map['folder'][i]] = f'{classes_map["number"][i]-1}-{classes_map["classes"][i]}' #기존 볼더명을 새 이름으로 바꿈
-    for dir, cls in class_dict.items():
-        src = os.path.join(data_dir, dir)
-        dst = os.path.join(data_dir,cls)
-        try:
-            os.rename(src,dst)
+                                                 #0부터 시작할 수 있도록 1 빼줌  # 예시 0-금붕어 를 딕셔너리에 저장
+    for dir, cls in class_dict.items():   # 딕셔너리 키와 값을 가지고 옴        
+        src = os.path.join(data_dir, dir) # 예)../dataset/n02106166 같은 원본 폴더의 전체 경로
+        dst = os.path.join(data_dir,cls)  # 예)../dataset/0-금붕어 같은 새로운 폴더의 전체 경로
+        try:   #예외 처리 사용
+            os.rename(src,dst)  # 이름 교체
         except:
             pass
         

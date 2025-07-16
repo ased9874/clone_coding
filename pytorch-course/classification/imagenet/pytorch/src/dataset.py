@@ -4,8 +4,8 @@ from typing import Callable, Optional, Sequence, Tuple
 from PIL import Image
 
 import torch
-from torch.utils.data import Dataset
-from torchvision import transforms
+from torch.utils.data import Dataset  # Dataset을 상속 받아야 하는 이유. 파이토치에서 사용자 정의 데이터셋을 만들 때 반드시 상속되야 Dataloader를 쓸 수 있다 
+from torchvision import transforms    #Dataset을 상속 받으면 1. __len__ 메서드 구현:데이터세의 총 샘플 개수를 반환 2. getitem 메서드 구현 :특정 인덱스에 해당하는 샘플 하나와 레이블 반환
 
 class ImagenetDataset(Dataset):      #image_dir 인자는 str이나 Path 객체처럼 경로(path)처럼 사용할 수 있는 값,    #image_dir는 경로 한개가 아닌 여러 경로의 리스트이디ㅏ 
                                       #os.PathLike 는 "images/cat/0001.jpg"나 Path("images/cat/0001.jpg") 모두 허용
